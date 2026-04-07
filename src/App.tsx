@@ -8,12 +8,12 @@ import {
   Terminal,
   Cpu,
   Mail,
-  Linkedin,
-  Github,
   ChevronDown,
 } from 'lucide-react'
 import './App.css'
 import Nav, { type Section } from './components/Nav'
+import LinkedIn from './components/LinkedIn'
+import GitHub from './components/GitHub'
 
 const services = [
   {
@@ -310,7 +310,7 @@ function App() {
                   rel="noopener noreferrer"
                   className="social-link"
                 >
-                  <Linkedin size={20} />
+                  <LinkedIn />
                   LinkedIn
                 </a>
                 <a
@@ -319,7 +319,7 @@ function App() {
                   rel="noopener noreferrer"
                   className="social-link"
                 >
-                  <Github size={20} />
+                  <GitHub />
                   GitHub
                 </a>
               </div>
@@ -387,7 +387,7 @@ function App() {
                 rel="noopener noreferrer"
                 className="contact-card"
               >
-                <Linkedin size={24} />
+                <LinkedIn />
                 <span className="contact-label">LinkedIn</span>
                 <span className="contact-value">Connect on LinkedIn</span>
               </a>
