@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import {
   Code,
@@ -12,12 +11,10 @@ import {
   Linkedin,
   Github,
   ChevronDown,
-  Menu,
-  X,
 } from 'lucide-react'
 import './App.css'
+import Nav from './components/Nav'
 
-const sections = ['hero', 'services', 'tech', 'about', 'contact']
 const services = [
   {
     icon: <Code size={32} />,
@@ -72,39 +69,14 @@ const techStack = [
 ]
 
 function App() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [activeSection, setActiveSection] = useState('hero')
   const { scrollYProgress } = useScroll()
   const backgroundY = useTransform(scrollYProgress, [0, 1], ['0%', '25%'])
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const entry = entries.find((entry) => entry.isIntersecting)
-        if (entry) {
-          setActiveSection(entry.target.id)
-        }
-      },
-      // Tripwire across the viewport
-      {
-        rootMargin: '-50% 0px',
-      },
-    )
-
-    sections
-      .map((section) => document.getElementById(section))
-      .filter((element) => !!element)
-      .forEach((element) => observer.observe(element))
-
-    return () => observer.disconnect()
-  }, [])
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId)
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' })
     }
-    setMobileMenuOpen(false)
   }
 
   return (
@@ -113,59 +85,10 @@ function App() {
       <motion.div className="background-gradient" style={{ y: backgroundY }} />
       <div className="grid-overlay" />
 
-      {/* Navigation */}
-      <nav className="nav">
-        <div className="nav-container">
-          <motion.div
-            className="logo"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <img width={34} src="/icon.png" />
-            <span className="logo-text">Westside Consulting</span>
-          </motion.div>
-
-          <div className="nav-links desktop-nav">
-            {['Services', 'Tech', 'About', 'Contact'].map((item, i) => (
-              <motion.button
-                key={item}
-                className={`nav-link ${activeSection === item.toLowerCase() ? 'active' : ''}`}
-                onClick={() => scrollToSection(item.toLowerCase())}
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: i * 0.1 }}
-              >
-                {item}
-              </motion.button>
-            ))}
-          </div>
-
-          <button
-            className="mobile-menu-btn"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
-
-        {/* Mobile menu */}
-        <motion.div
-          className={`mobile-nav ${mobileMenuOpen ? 'open' : ''}`}
-          initial={false}
-          animate={{ height: mobileMenuOpen ? 'auto' : 0 }}
-        >
-          {['Services', 'Tech', 'About', 'Contact'].map((item) => (
-            <button
-              key={item}
-              className="mobile-nav-link"
-              onClick={() => scrollToSection(item.toLowerCase())}
-            >
-              {item}
-            </button>
-          ))}
-        </motion.div>
-      </nav>
+      <Nav
+        sections={['hero', 'services', 'tech', 'about', 'contact']}
+        initialSection="hero"
+      />
 
       {/* Hero Section */}
       <section id="hero" className="hero">
