@@ -2,22 +2,23 @@ import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 
-function Nav({
-  sections,
-  initialSection,
-}: {
-  sections: string[]
-  initialSection: string
-}) {
+export interface Section {
+  id: string
+  name: string
+}
+
+function Nav({ sections }: { sections: Section[] }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [activeSection, setActiveSection] = useState(initialSection)
+  const [activeSection, setActiveSection] = useState<Section>()
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         const entry = entries.find((entry) => entry.isIntersecting)
         if (entry) {
-          setActiveSection(entry.target.id)
+          setActiveSection(
+            sections.find((section) => section.id === entry.target.id),
+          )
         }
       },
       // Tripwire centered vertically across the viewport
@@ -27,7 +28,7 @@ function Nav({
     )
 
     sections
-      .map((section) => document.getElementById(section))
+      .map((section) => document.getElementById(section.id))
       .filter((element) => !!element)
       .forEach((element) => observer.observe(element))
 
@@ -35,11 +36,13 @@ function Nav({
   }, [])
 
   const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
-    }
     setMobileMenuOpen(false)
+    setTimeout(() => {
+      const element = document.getElementById(sectionId)
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' })
+      }
+    }, 50)
   }
 
   return (
@@ -56,16 +59,16 @@ function Nav({
         </motion.div>
 
         <div className="nav-links desktop-nav">
-          {['Services', 'Tech', 'About', 'Contact'].map((item, i) => (
+          {sections.map((section, i) => (
             <motion.button
-              key={item}
-              className={`nav-link ${activeSection === item.toLowerCase() ? 'active' : ''}`}
-              onClick={() => scrollToSection(item.toLowerCase())}
+              key={section.id}
+              className={`nav-link ${activeSection?.id === section.id ? 'active' : ''}`}
+              onClick={() => scrollToSection(section.id)}
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: i * 0.1 }}
             >
-              {item}
+              {section.name}
             </motion.button>
           ))}
         </div>
@@ -84,13 +87,13 @@ function Nav({
         initial={false}
         animate={{ height: mobileMenuOpen ? 'auto' : 0 }}
       >
-        {['Services', 'Tech', 'About', 'Contact'].map((item) => (
+        {sections.map((section) => (
           <button
-            key={item}
+            key={section.id}
             className="mobile-nav-link"
-            onClick={() => scrollToSection(item.toLowerCase())}
+            onClick={() => scrollToSection(section.id)}
           >
-            {item}
+            {section.name}
           </button>
         ))}
       </motion.div>

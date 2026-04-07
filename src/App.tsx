@@ -13,7 +13,7 @@ import {
   ChevronDown,
 } from 'lucide-react'
 import './App.css'
-import Nav from './components/Nav'
+import Nav, { type Section } from './components/Nav'
 
 const services = [
   {
@@ -79,16 +79,20 @@ function App() {
     }
   }
 
+  const sections: Section[] = [
+    { id: 'services', name: 'Services' },
+    { id: 'tech', name: 'Tech' },
+    { id: 'about', name: 'About' },
+    { id: 'contact', name: 'Contact' },
+  ]
+
   return (
     <div className="app">
       {/* Animated background */}
       <motion.div className="background-gradient" style={{ y: backgroundY }} />
       <div className="grid-overlay" />
 
-      <Nav
-        sections={['hero', 'services', 'tech', 'about', 'contact']}
-        initialSection="hero"
-      />
+      <Nav sections={sections} />
 
       {/* Hero Section */}
       <section id="hero" className="hero">
