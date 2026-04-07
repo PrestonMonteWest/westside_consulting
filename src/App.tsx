@@ -1,24 +1,42 @@
 import { useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { Code, Server, Database, Globe, ArrowRight, Terminal, Cpu, Mail, Linkedin, Github, ChevronDown, Menu, X } from 'lucide-react';
+import {
+  Code,
+  Server,
+  Database,
+  Globe,
+  ArrowRight,
+  Terminal,
+  Cpu,
+  Mail,
+  Linkedin,
+  Github,
+  ChevronDown,
+  Menu,
+  X,
+} from 'lucide-react';
 import './App.css';
 
 function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
   const { scrollYProgress } = useScroll();
-  const backgroundY = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
+  const backgroundY = useTransform(scrollYProgress, [0, 1], ['0%', '25%']);
+
+  const sections = ['hero', 'services', 'tech', 'about', 'contact'];
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['hero', 'services', 'tech', 'about', 'contact'];
       const scrollPosition = window.scrollY + 100;
 
       for (const section of sections) {
         const element = document.getElementById(section);
         if (element) {
           const { offsetTop, offsetHeight } = element;
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+          if (
+            scrollPosition >= offsetTop &&
+            scrollPosition < offsetTop + offsetHeight
+          ) {
             setActiveSection(section);
             break;
           }
@@ -42,35 +60,54 @@ function App() {
     {
       icon: <Code size={32} />,
       title: 'Frontend Development',
-      description: 'Modern, responsive web applications built with Angular, React, and TypeScript. Component-driven architecture with a focus on performance and user experience.',
-      tech: ['Angular', 'React', 'TypeScript', 'Tailwind CSS']
+      description:
+        'Modern, responsive web applications built with Angular, React, and TypeScript. Component-driven architecture with a focus on performance and user experience.',
+      tech: ['Angular', 'React', 'TypeScript', 'Tailwind CSS'],
     },
     {
       icon: <Server size={32} />,
       title: 'Backend Development',
-      description: 'Scalable server-side solutions using Node.js and NestJS. RESTful APIs, GraphQL, gRPC, and microservices architecture.',
-      tech: ['NestJS', 'Node.js', 'Express', 'gRPC']
+      description:
+        'Scalable server-side solutions using Node.js and NestJS. RESTful APIs, GraphQL, gRPC, and microservices architecture.',
+      tech: ['NestJS', 'Node.js', 'Express', 'gRPC'],
     },
     {
       icon: <Database size={32} />,
       title: 'Database & Infrastructure',
-      description: 'Database design, optimization, and cloud infrastructure setup. Docker containerization and CI/CD pipeline implementation.',
-      tech: ['PostgreSQL', 'MongoDB', 'Docker', 'Azure']
+      description:
+        'Database design, optimization, and cloud infrastructure setup. Docker containerization and CI/CD pipeline implementation.',
+      tech: ['PostgreSQL', 'MongoDB', 'Docker', 'Azure'],
     },
     {
       icon: <Globe size={32} />,
       title: 'Full-Stack Solutions',
-      description: 'End-to-end application development from concept to deployment. Complete ownership of the technical stack.',
-      tech: ['Full-Stack', 'AWS', 'Linux', 'DevOps']
-    }
+      description:
+        'End-to-end application development from concept to deployment. Complete ownership of the technical stack.',
+      tech: ['Full-Stack', 'AWS', 'Linux', 'DevOps'],
+    },
   ];
 
   const techStack = [
-    { category: 'Frontend', items: ['Angular 18+', 'React', 'TypeScript', 'RxJS', 'Tailwind CSS'] },
-    { category: 'Backend', items: ['NestJS', 'Node.js', 'Express', 'gRPC-Web'] },
-    { category: 'Database', items: ['PostgreSQL', 'MongoDB', 'Redis', 'Prisma'] },
-    { category: 'Cloud & DevOps', items: ['Azure', 'AWS', 'Docker', 'Linux', 'CI/CD'] },
-    { category: 'Auth & Security', items: ['Azure AD B2C', 'OAuth 2.0', 'JWT', 'RBAC'] }
+    {
+      category: 'Frontend',
+      items: ['Angular 18+', 'React', 'TypeScript', 'RxJS', 'Tailwind CSS'],
+    },
+    {
+      category: 'Backend',
+      items: ['NestJS', 'Node.js', 'Express', 'gRPC-Web'],
+    },
+    {
+      category: 'Database',
+      items: ['PostgreSQL', 'MongoDB', 'Redis', 'Prisma'],
+    },
+    {
+      category: 'Cloud & DevOps',
+      items: ['Azure', 'AWS', 'Docker', 'Linux', 'CI/CD'],
+    },
+    {
+      category: 'Auth & Security',
+      items: ['Azure AD B2C', 'OAuth 2.0', 'JWT', 'RBAC'],
+    },
   ];
 
   return (
@@ -82,13 +119,13 @@ function App() {
       {/* Navigation */}
       <nav className="nav">
         <div className="nav-container">
-          <motion.div 
+          <motion.div
             className="logo"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className="logo-icon">W</span>
+            <img width={34} src="/icon.png" />
             <span className="logo-text">Westside Consulting</span>
           </motion.div>
 
@@ -107,13 +144,16 @@ function App() {
             ))}
           </div>
 
-          <button className="mobile-menu-btn" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+          <button
+            className="mobile-menu-btn"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
 
         {/* Mobile menu */}
-        <motion.div 
+        <motion.div
           className={`mobile-nav ${mobileMenuOpen ? 'open' : ''}`}
           initial={false}
           animate={{ height: mobileMenuOpen ? 'auto' : 0 }}
@@ -160,8 +200,8 @@ function App() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            Custom software development with 7+ years of experience. 
-            Angular, React, NestJS, and Node.js expertise—from concept to deployment.
+            Custom software development with 7+ years of experience. Angular,
+            React, NestJS, and Node.js expertise—from concept to deployment.
           </motion.p>
 
           <motion.div
@@ -170,11 +210,17 @@ function App() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
           >
-            <button className="btn-primary" onClick={() => scrollToSection('contact')}>
+            <button
+              className="btn-primary"
+              onClick={() => scrollToSection('contact')}
+            >
               Get in Touch
               <ArrowRight size={18} />
             </button>
-            <button className="btn-secondary" onClick={() => scrollToSection('services')}>
+            <button
+              className="btn-secondary"
+              onClick={() => scrollToSection('services')}
+            >
               View Services
             </button>
           </motion.div>
@@ -223,8 +269,8 @@ function App() {
             <span className="section-tag">What I Do</span>
             <h2 className="section-title">Services</h2>
             <p className="section-subtitle">
-              End-to-end web development tailored to your requirements. 
-              The only constraints are time and budget.
+              End-to-end web development tailored to your requirements. The only
+              constraints are time and budget.
             </p>
           </motion.div>
 
@@ -244,7 +290,9 @@ function App() {
                 <p className="service-description">{service.description}</p>
                 <div className="service-tech">
                   {service.tech.map((tech) => (
-                    <span key={tech} className="tech-tag">{tech}</span>
+                    <span key={tech} className="tech-tag">
+                      {tech}
+                    </span>
                   ))}
                 </div>
               </motion.div>
@@ -266,7 +314,8 @@ function App() {
             <span className="section-tag">Technology</span>
             <h2 className="section-title">Tech Stack</h2>
             <p className="section-subtitle">
-              Modern tools and frameworks for building scalable, maintainable applications.
+              Modern tools and frameworks for building scalable, maintainable
+              applications.
             </p>
           </motion.div>
 
@@ -286,7 +335,9 @@ function App() {
                 </h3>
                 <div className="tech-items">
                   {category.items.map((item) => (
-                    <span key={item} className="tech-item">{item}</span>
+                    <span key={item} className="tech-item">
+                      {item}
+                    </span>
                   ))}
                 </div>
               </motion.div>
@@ -309,28 +360,41 @@ function App() {
               <span className="section-tag">About</span>
               <h2 className="section-title">Preston West</h2>
               <p>
-                Full-stack TypeScript engineer with over 7 years of web development experience 
-                and 10+ years in software development overall. I specialize in building 
-                greenfield web applications end-to-end—frontend, backend, and infrastructure.
+                Full-stack TypeScript engineer with over 7 years of web
+                development experience and 10+ years in software development
+                overall. I specialize in building greenfield web applications
+                end-to-end—frontend, backend, and infrastructure.
               </p>
               <p>
-                Recent work includes developing an international Angular 18 application for 
-                autonomous tractors at Kubota, featuring gRPC-Web integration and Azure AD B2C 
-                authentication. I bring deep experience with Angular, React, NestJS, and Node.js 
-                across Azure, AWS, Docker, and Linux environments.
+                Recent work includes developing an international Angular 18
+                application for autonomous tractors at Kubota, featuring
+                gRPC-Web integration and Azure AD B2C authentication. I bring
+                deep experience with Angular, React, NestJS, and Node.js across
+                Azure, AWS, Docker, and Linux environments.
               </p>
               <p>
-                Westside Consulting was founded in September 2025 to provide contract and 
-                consulting services focused on custom web application development. Whether 
-                you need a complete application built from scratch or expertise on an 
-                existing project, I deliver production-ready solutions.
+                Westside Consulting was founded in September 2025 to provide
+                contract and consulting services focused on custom web
+                application development. Whether you need a complete application
+                built from scratch or expertise on an existing project, I
+                deliver production-ready solutions.
               </p>
               <div className="about-links">
-                <a href="https://www.linkedin.com/in/preston-west/" target="_blank" rel="noopener noreferrer" className="social-link">
+                <a
+                  href="https://www.linkedin.com/in/preston-west/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="social-link"
+                >
                   <Linkedin size={20} />
                   LinkedIn
                 </a>
-                <a href="https://github.com/prestonwest" target="_blank" rel="noopener noreferrer" className="social-link">
+                <a
+                  href="https://github.com/prestonwest"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="social-link"
+                >
                   <Github size={20} />
                   GitHub
                 </a>
@@ -378,17 +442,27 @@ function App() {
             <span className="section-tag">Contact</span>
             <h2 className="section-title">Let's Build Something</h2>
             <p className="contact-subtitle">
-              Available for contract and consulting engagements. 
-              Reach out to discuss your project requirements.
+              Available for contract and consulting engagements. Reach out to
+              discuss your project requirements.
             </p>
 
             <div className="contact-methods">
-              <a href="mailto:preston@westsideconsulting.dev" className="contact-card">
+              <a
+                href="mailto:prestonmontewest@gmail.com"
+                className="contact-card"
+              >
                 <Mail size={24} />
                 <span className="contact-label">Email</span>
-                <span className="contact-value">preston@westsideconsulting.dev</span>
+                <span className="contact-value">
+                  prestonmontewest@gmail.com
+                </span>
               </a>
-              <a href="https://www.linkedin.com/in/preston-west/" target="_blank" rel="noopener noreferrer" className="contact-card">
+              <a
+                href="https://www.linkedin.com/in/preston-west/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="contact-card"
+              >
                 <Linkedin size={24} />
                 <span className="contact-label">LinkedIn</span>
                 <span className="contact-value">Connect on LinkedIn</span>
@@ -402,7 +476,7 @@ function App() {
       <footer className="footer">
         <div className="footer-container">
           <div className="footer-brand">
-            <span className="logo-icon">W</span>
+            <img width={34} src="/icon.png" />
             <span>Westside Consulting LLC</span>
           </div>
           <p className="footer-text">
