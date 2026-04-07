@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { useState, useEffect } from 'react'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import {
   Code,
   Server,
@@ -14,101 +14,98 @@ import {
   ChevronDown,
   Menu,
   X,
-} from 'lucide-react';
-import './App.css';
+} from 'lucide-react'
+import './App.css'
+
+const sections = ['hero', 'services', 'tech', 'about', 'contact']
+const services = [
+  {
+    icon: <Code size={32} />,
+    title: 'Frontend Development',
+    description:
+      'Modern, responsive web applications built with Angular, React, and TypeScript. Component-driven architecture with a focus on performance and user experience.',
+    tech: ['Angular', 'React', 'TypeScript', 'Tailwind CSS'],
+  },
+  {
+    icon: <Server size={32} />,
+    title: 'Backend Development',
+    description:
+      'Scalable server-side solutions using Node.js and NestJS. RESTful APIs, GraphQL, gRPC, and microservices architecture.',
+    tech: ['NestJS', 'Node.js', 'Express', 'gRPC'],
+  },
+  {
+    icon: <Database size={32} />,
+    title: 'Database & Infrastructure',
+    description:
+      'Database design, optimization, and cloud infrastructure setup. Docker containerization and CI/CD pipeline implementation.',
+    tech: ['PostgreSQL', 'MongoDB', 'Docker', 'Azure'],
+  },
+  {
+    icon: <Globe size={32} />,
+    title: 'Full-Stack Solutions',
+    description:
+      'End-to-end application development from concept to deployment. Complete ownership of the technical stack.',
+    tech: ['Full-Stack', 'AWS', 'Linux', 'DevOps'],
+  },
+]
+const techStack = [
+  {
+    category: 'Frontend',
+    items: ['Angular 18+', 'React', 'TypeScript', 'RxJS', 'Tailwind CSS'],
+  },
+  {
+    category: 'Backend',
+    items: ['NestJS', 'Node.js', 'Express', 'gRPC-Web'],
+  },
+  {
+    category: 'Database',
+    items: ['PostgreSQL', 'MongoDB', 'Redis', 'Prisma'],
+  },
+  {
+    category: 'Cloud & DevOps',
+    items: ['Azure', 'AWS', 'Docker', 'Linux', 'CI/CD'],
+  },
+  {
+    category: 'Auth & Security',
+    items: ['Azure AD B2C', 'OAuth 2.0', 'JWT', 'RBAC'],
+  },
+]
 
 function App() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('hero');
-  const { scrollYProgress } = useScroll();
-  const backgroundY = useTransform(scrollYProgress, [0, 1], ['0%', '25%']);
-
-  const sections = ['hero', 'services', 'tech', 'about', 'contact'];
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [activeSection, setActiveSection] = useState('hero')
+  const { scrollYProgress } = useScroll()
+  const backgroundY = useTransform(scrollYProgress, [0, 1], ['0%', '25%'])
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY + 100;
-
-      for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element) {
-          const { offsetTop, offsetHeight } = element;
-          if (
-            scrollPosition >= offsetTop &&
-            scrollPosition < offsetTop + offsetHeight
-          ) {
-            setActiveSection(section);
-            break;
-          }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries.find((entry) => entry.isIntersecting)
+        if (entry) {
+          setActiveSection(entry.target.id)
         }
-      }
-    };
+      },
+      // Tripwire across the viewport
+      {
+        rootMargin: '-50% 0px',
+      },
+    )
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    sections
+      .map((section) => document.getElementById(section))
+      .filter((element) => !!element)
+      .forEach((element) => observer.observe(element))
+
+    return () => observer.disconnect()
+  }, [])
 
   const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
+    const element = document.getElementById(sectionId)
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      element.scrollIntoView({ behavior: 'smooth' })
     }
-    setMobileMenuOpen(false);
-  };
-
-  const services = [
-    {
-      icon: <Code size={32} />,
-      title: 'Frontend Development',
-      description:
-        'Modern, responsive web applications built with Angular, React, and TypeScript. Component-driven architecture with a focus on performance and user experience.',
-      tech: ['Angular', 'React', 'TypeScript', 'Tailwind CSS'],
-    },
-    {
-      icon: <Server size={32} />,
-      title: 'Backend Development',
-      description:
-        'Scalable server-side solutions using Node.js and NestJS. RESTful APIs, GraphQL, gRPC, and microservices architecture.',
-      tech: ['NestJS', 'Node.js', 'Express', 'gRPC'],
-    },
-    {
-      icon: <Database size={32} />,
-      title: 'Database & Infrastructure',
-      description:
-        'Database design, optimization, and cloud infrastructure setup. Docker containerization and CI/CD pipeline implementation.',
-      tech: ['PostgreSQL', 'MongoDB', 'Docker', 'Azure'],
-    },
-    {
-      icon: <Globe size={32} />,
-      title: 'Full-Stack Solutions',
-      description:
-        'End-to-end application development from concept to deployment. Complete ownership of the technical stack.',
-      tech: ['Full-Stack', 'AWS', 'Linux', 'DevOps'],
-    },
-  ];
-
-  const techStack = [
-    {
-      category: 'Frontend',
-      items: ['Angular 18+', 'React', 'TypeScript', 'RxJS', 'Tailwind CSS'],
-    },
-    {
-      category: 'Backend',
-      items: ['NestJS', 'Node.js', 'Express', 'gRPC-Web'],
-    },
-    {
-      category: 'Database',
-      items: ['PostgreSQL', 'MongoDB', 'Redis', 'Prisma'],
-    },
-    {
-      category: 'Cloud & DevOps',
-      items: ['Azure', 'AWS', 'Docker', 'Linux', 'CI/CD'],
-    },
-    {
-      category: 'Auth & Security',
-      items: ['Azure AD B2C', 'OAuth 2.0', 'JWT', 'RBAC'],
-    },
-  ];
+    setMobileMenuOpen(false)
+  }
 
   return (
     <div className="app">
@@ -180,7 +177,7 @@ function App() {
             transition={{ duration: 0.6 }}
           >
             <Terminal size={16} />
-            <span>Full-Stack TypeScript Development</span>
+            <span>Full-Stack Web Development</span>
           </motion.div>
 
           <motion.h1
@@ -200,8 +197,8 @@ function App() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            Custom software development with 7+ years of experience. Angular,
-            React, NestJS, and Node.js expertise—from concept to deployment.
+            Custom web development with 7+ years of experience. Angular, React,
+            NestJS, and Node.js expertise—from concept to deployment.
           </motion.p>
 
           <motion.div
@@ -367,7 +364,7 @@ function App() {
               </p>
               <p>
                 Recent work includes developing an international Angular 18
-                application for autonomous tractors at Kubota, featuring
+                application for WorkSmart Autosteer at Kubota, featuring
                 gRPC-Web integration and Azure AD B2C authentication. I bring
                 deep experience with Angular, React, NestJS, and Node.js across
                 Azure, AWS, Docker, and Linux environments.
@@ -485,7 +482,7 @@ function App() {
         </div>
       </footer>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
