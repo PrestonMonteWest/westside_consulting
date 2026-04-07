@@ -301,7 +301,7 @@ function App() {
               </p>
               <div className="about-links">
                 <a
-                  href="https://www.linkedin.com/in/preston-west/"
+                  href="https://www.linkedin.com/company/westside-consulting/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="social-link"
@@ -378,7 +378,7 @@ function App() {
                 </span>
               </a>
               <a
-                href="https://www.linkedin.com/in/preston-west/"
+                href="https://www.linkedin.com/company/westside-consulting/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="contact-card"
