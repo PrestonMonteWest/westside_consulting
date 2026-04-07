@@ -314,7 +314,7 @@ function App() {
                   LinkedIn
                 </a>
                 <a
-                  href="https://github.com/prestonwest"
+                  href="https://github.com/prestonmontewest"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="social-link"
