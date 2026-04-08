@@ -80,6 +80,7 @@ function App() {
   }
 
   const sections: Section[] = [
+    { id: 'hero', name: 'Hero', hide: true },
     { id: 'services', name: 'Services' },
     { id: 'tech', name: 'Tech' },
     { id: 'about', name: 'About' },

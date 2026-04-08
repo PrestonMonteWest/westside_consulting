@@ -5,6 +5,7 @@ import { Menu, X } from 'lucide-react'
 export interface Section {
   id: string
   name: string
+  hide?: boolean
 }
 
 function Nav({ sections }: { sections: Section[] }) {
@@ -59,18 +60,20 @@ function Nav({ sections }: { sections: Section[] }) {
         </motion.div>
 
         <div className="nav-links desktop-nav">
-          {sections.map((section, i) => (
-            <motion.button
-              key={section.id}
-              className={`nav-link ${activeSection?.id === section.id ? 'active' : ''}`}
-              onClick={() => scrollToSection(section.id)}
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: i * 0.1 }}
-            >
-              {section.name}
-            </motion.button>
-          ))}
+          {sections
+            .filter((section) => !section.hide)
+            .map((section, i) => (
+              <motion.button
+                key={section.id}
+                className={`nav-link ${activeSection?.id === section.id ? 'active' : ''}`}
+                onClick={() => scrollToSection(section.id)}
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: i * 0.1 }}
+              >
+                {section.name}
+              </motion.button>
+            ))}
         </div>
 
         <button
@@ -87,15 +90,17 @@ function Nav({ sections }: { sections: Section[] }) {
         initial={false}
         animate={{ height: mobileMenuOpen ? 'auto' : 0 }}
       >
-        {sections.map((section) => (
-          <button
-            key={section.id}
-            className="mobile-nav-link"
-            onClick={() => scrollToSection(section.id)}
-          >
-            {section.name}
-          </button>
-        ))}
+        {sections
+          .filter((section) => !section.hide)
+          .map((section) => (
+            <button
+              key={section.id}
+              className="mobile-nav-link"
+              onClick={() => scrollToSection(section.id)}
+            >
+              {section.name}
+            </button>
+          ))}
       </motion.div>
     </nav>
   )
